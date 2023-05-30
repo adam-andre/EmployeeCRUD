@@ -105,7 +105,7 @@ app.delete("/employee/:id", (req, res) => {
 
 // STAR ROUTE
 app.get("*", (req, res) => {
-    res.send("Route not recognized");
+    res.status(404).send("Error 404: Route not found");
 });
 
 // LISTENER
