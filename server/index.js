@@ -65,11 +65,21 @@ app.patch("/employee/:id", (req, res) => {
 
     updateFields.forEach((el, i) => {
         // append the SQL formatting to the string to add to the query
-        updateFieldsString += `${el} = ${updateValues[i]}`;
+        updateFieldsString += `${el} = `;
+
+        if (isNaN(Number(updateValues[i]))) {
+            updateFieldsString += `'${updateValues[i]}'`;
+        }
+        else {
+            updateFieldsString += updateValues[i];
+        }
+
 
         // if we are not on the last element:
         if (i !== updateFields.length - 1) updateFieldsString += ",";
-    })
+    });
+
+    console.log(updateFieldsString);
 
     pool.query(`UPDATE employees SET ${updateFieldsString} WHERE employee_id = ${req.params.id}`, (error) => {
         if (error) {
